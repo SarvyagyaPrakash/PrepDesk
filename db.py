@@ -23,6 +23,16 @@ CREATE TABLE IF NOT EXISTS applications (
 );
 """
 
+_CREATE_DEADLINES_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS deadlines (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    course TEXT,
+    due_date TEXT NOT NULL,
+    created_at TEXT
+);
+"""
+
 
 def get_db_path() -> Path:
     """Resolve the SQLite database path from PREPDESK_DB or default to data/prepdesk.db."""
@@ -41,5 +51,6 @@ def get_connection() -> sqlite3.Connection:
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     conn.execute(_CREATE_APPLICATIONS_TABLE_SQL)
+    conn.execute(_CREATE_DEADLINES_TABLE_SQL)
     conn.commit()
     return conn

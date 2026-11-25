@@ -10,6 +10,7 @@ PrepDesk is a local Model Context Protocol (MCP) server for students, acting as 
 - `search_notes(question, top_k)`
 - `add_deadline(title, due_date, course)`
 - `list_deadlines(days_ahead)`
+- `get_today()`
 - `add_application(company, role, link, notes, status)`
 - `update_application(id, status, notes)`
 - `list_applications(status)`

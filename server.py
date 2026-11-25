@@ -4,6 +4,7 @@ from typing import Any
 
 from fastmcp import FastMCP
 
+import deadlines
 import jobs
 
 logging.basicConfig(
@@ -81,6 +82,39 @@ def followups_due(days_since_update: int = 7) -> list[dict[str, Any]]:
     haven't had activity in N days (default 7).
     """
     return jobs.followups_due(days_since_update=days_since_update)
+
+
+@mcp.tool()
+def get_today() -> dict[str, str]:
+    """Return today's local date (YYYY-MM-DD) and weekday name.
+
+    Use this whenever you need the current date or day of the week—especially
+    before calling add_deadline when the user gives a relative date like
+    'Friday', 'tomorrow', or 'next week'.
+    """
+    return deadlines.get_today()
+
+
+@mcp.tool()
+def add_deadline(title: str, due_date: str, course: str = "") -> dict[str, Any]:
+    """Add an upcoming assignment, exam, or task deadline and return the saved record.
+
+    Use this when the student wants to track a deadline or due date.
+    due_date must be YYYY-MM-DD. If the user says a relative date like 'Friday'
+    or 'next week', call get_today first and compute the date.
+    """
+    return deadlines.add_deadline(title=title, due_date=due_date, course=course)
+
+
+@mcp.tool()
+def list_deadlines(days_ahead: int = 14) -> list[dict[str, Any]]:
+    """List overdue deadlines and upcoming deadlines within the next days_ahead days.
+
+    Use this when the student asks what is due soon, what assignments or exams
+    are coming up, or if anything is overdue. Items are sorted by due_date and
+    include days_left and status ('overdue', 'today', or 'upcoming').
+    """
+    return deadlines.list_deadlines(days_ahead=days_ahead)
 
 
 if __name__ == "__main__":
