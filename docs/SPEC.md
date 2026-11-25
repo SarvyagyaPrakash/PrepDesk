@@ -15,7 +15,7 @@ PrepDesk is a local Model Context Protocol (MCP) server for students, acting as 
 - `update_application(id, status, notes)`
 - `list_applications(status)`
 - `followups_due(days_since_update)`
-- `match_resume(job_description)`
+- `match_resume(job_description, resume_path, application_id)`
 
 ### Resource
 

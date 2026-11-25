@@ -6,6 +6,7 @@ from fastmcp import FastMCP
 
 import deadlines
 import jobs
+import matcher
 import notes
 
 logging.basicConfig(
@@ -139,6 +140,27 @@ def search_notes(question: str, top_k: int = 5) -> list[dict[str, Any]]:
     notes don't cover it; do not invent an answer. Always mention the source file and page.
     """
     return notes.search_notes(question=question, top_k=top_k)
+
+
+@mcp.tool()
+def match_resume(
+    job_description: str,
+    resume_path: str = "data/resume.pdf",
+    application_id: int | None = None,
+) -> dict[str, Any]:
+    """Compare the user's resume to a pasted job description.
+
+    Use this when the student pastes a job description and wants to see how well
+    their resume matches it, optionally logging the summary to an application
+    record via application_id. Returns overall match percent, missing skills,
+    matched requirements, and gaps. The score is a rough estimate; after calling
+    this tool, give practical advice on how to close the identified gaps.
+    """
+    return matcher.match_resume(
+        job_description=job_description,
+        resume_path=resume_path,
+        application_id=application_id,
+    )
 
 
 if __name__ == "__main__":

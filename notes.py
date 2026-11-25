@@ -1,6 +1,5 @@
 import hashlib
 import logging
-import os
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -10,36 +9,18 @@ from pypdf import PdfReader
 
 import embeddings
 from db import get_connection
+from paths import get_data_dir, safe_data_path
 
 logger = logging.getLogger("prepdesk.notes")
 
-_BASE_DIR = Path(__file__).resolve().parent
 _SUPPORTED_EXTENSIONS = {".pdf", ".md", ".txt"}
 _SENTENCE_BREAKS = ("\n\n", "\n", ". ", "! ", "? ", " ")
 
 
-def _get_data_dir() -> Path:
-    """Resolve the allowed data/ directory, overridable via PREPDESK_DATA_DIR for tests."""
-    env_dir = os.environ.get("PREPDESK_DATA_DIR")
-    if env_dir:
-        return Path(env_dir).resolve()
-    return (_BASE_DIR / "data").resolve()
-
-
 def _resolve_folder(folder: str) -> tuple[Path, Path]:
     """Resolve folder and verify it lies inside the project's data/ directory."""
-    data_dir = _get_data_dir()
-    folder_path = Path(folder)
-    if folder_path.is_absolute():
-        resolved = folder_path.resolve()
-    else:
-        project_root = data_dir.parent if data_dir.name == "data" else _BASE_DIR
-        resolved = (project_root / folder_path).resolve()
-
-    if not resolved.is_relative_to(data_dir):
-        raise ValueError(
-            f"Access denied: '{folder}' resolves outside the allowed data/ directory."
-        )
+    data_dir = get_data_dir()
+    resolved = safe_data_path(folder)
     if not resolved.exists() or not resolved.is_dir():
         raise ValueError(f"Notes folder does not exist: '{resolved}'.")
     return resolved, data_dir

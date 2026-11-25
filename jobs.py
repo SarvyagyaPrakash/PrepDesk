@@ -69,6 +69,21 @@ def add_application(
         conn.close()
 
 
+def get_application(id: int) -> dict[str, Any]:
+    """Fetch a single job application by ID, raising ValueError if it does not exist."""
+    conn = get_connection()
+    try:
+        row = conn.execute(
+            "SELECT * FROM applications WHERE id = ?",
+            (id,),
+        ).fetchone()
+        if row is None:
+            raise ValueError(f"Application with id {id} does not exist.")
+        return dict(row)
+    finally:
+        conn.close()
+
+
 def update_application(
     id: int,
     status: str | None = None,
