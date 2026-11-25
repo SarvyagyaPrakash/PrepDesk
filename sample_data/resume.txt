@@ -1,0 +1,18 @@
+Jordan Taylor
+jordan.taylor@example.com | (555) 014-8820 | github.com/jordan-taylor-demo
+
+EDUCATION
+B.S. in Computer Science, State University (Expected May 2027)
+
+SKILLS
+Languages: Python, JavaScript, TypeScript, SQL, C++
+Frameworks & Tools: FastAPI, React, Node.js, PostgreSQL, Docker, Git, GitHub Actions, pytest
+
+PROJECTS
+Campus Study Planner (Python, FastAPI, PostgreSQL, Docker)
+- Built a REST API and background reminder service for tracking course deadlines and study sessions.
+- Added parameterized SQL queries, pytest unit tests, and CI/CD checks with GitHub Actions.
+
+Log Search CLI (Python, SQLite, NumPy)
+- Implemented a local document chunker and vector similarity search tool over course PDFs.
+- Reduced query latency by caching embeddings locally in SQLite.

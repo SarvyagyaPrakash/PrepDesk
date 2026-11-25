@@ -1,0 +1,11 @@
+Database Management Systems: Indexing & Transactions
+
+1. B+ Tree Indexes
+- B+ trees keep all record pointers in leaf nodes, linked sequentially for fast range scans (e.g., WHERE age BETWEEN 20 AND 30).
+- Internal nodes store only keys and child pointers, increasing fanout and keeping tree height shallow (typically 3-4 levels for millions of rows).
+
+2. ACID Properties
+- Atomicity: A transaction executes completely or rolls back entirely on failure (using write-ahead logging / undo logs).
+- Consistency: Transactions preserve all database invariants, foreign keys, and CHECK constraints.
+- Isolation: Concurrent transactions do not corrupt each other's intermediate state (enforced via locks or MVCC).
+- Durability: Once committed, changes survive crashes because redo logs are flushed to non-volatile storage.
