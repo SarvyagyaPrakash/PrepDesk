@@ -1,0 +1,17 @@
+[project]
+name = "prepdesk"
+version = "0.1.0"
+description = "A study and placement assistant MCP server for students."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp",
+    "pypdf",
+    "fastembed",
+    "numpy",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.2.0",
+]
