@@ -6,6 +6,7 @@ from fastmcp import FastMCP
 
 import deadlines
 import jobs
+import notes
 
 logging.basicConfig(
     level=logging.INFO,
@@ -115,6 +116,29 @@ def list_deadlines(days_ahead: int = 14) -> list[dict[str, Any]]:
     include days_left and status ('overdue', 'today', or 'upcoming').
     """
     return deadlines.list_deadlines(days_ahead=days_ahead)
+
+
+@mcp.tool()
+def index_notes(folder: str = "data/notes") -> dict[str, Any]:
+    """Index PDF, Markdown, and text lecture notes inside the data/ directory.
+
+    Use this when the student adds new notes or asks to index/refresh their
+    study notes before searching them. Only paths inside ./data are allowed.
+    """
+    return notes.index_notes(folder=folder)
+
+
+@mcp.tool()
+def search_notes(question: str, top_k: int = 5) -> list[dict[str, Any]]:
+    """Search the student's indexed study notes for passages relevant to a question.
+
+    Use this when the student asks a study question about their lecture notes
+    or wants to find where a topic is covered in their files.
+    Returns the most relevant passages from the user's notes with similarity scores.
+    If none of the passages actually answers the question, tell the user their
+    notes don't cover it; do not invent an answer. Always mention the source file and page.
+    """
+    return notes.search_notes(question=question, top_k=top_k)
 
 
 if __name__ == "__main__":

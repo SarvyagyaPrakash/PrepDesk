@@ -33,6 +33,25 @@ CREATE TABLE IF NOT EXISTS deadlines (
 );
 """
 
+_CREATE_INDEXED_FILES_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS indexed_files (
+    path TEXT PRIMARY KEY,
+    sha256 TEXT,
+    indexed_at TEXT
+);
+"""
+
+_CREATE_CHUNKS_TABLE_SQL = """
+CREATE TABLE IF NOT EXISTS chunks (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    source TEXT,
+    page INTEGER,
+    chunk_index INTEGER,
+    text TEXT,
+    embedding BLOB
+);
+"""
+
 
 def get_db_path() -> Path:
     """Resolve the SQLite database path from PREPDESK_DB or default to data/prepdesk.db."""
@@ -52,5 +71,7 @@ def get_connection() -> sqlite3.Connection:
     conn.row_factory = sqlite3.Row
     conn.execute(_CREATE_APPLICATIONS_TABLE_SQL)
     conn.execute(_CREATE_DEADLINES_TABLE_SQL)
+    conn.execute(_CREATE_INDEXED_FILES_TABLE_SQL)
+    conn.execute(_CREATE_CHUNKS_TABLE_SQL)
     conn.commit()
     return conn
