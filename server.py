@@ -4,6 +4,7 @@ from typing import Any
 
 from fastmcp import FastMCP
 
+import briefing
 import deadlines
 import jobs
 import matcher
@@ -160,6 +161,54 @@ def match_resume(
         job_description=job_description,
         resume_path=resume_path,
         application_id=application_id,
+    )
+
+
+@mcp.tool()
+def weekly_briefing(days: int = 7) -> dict[str, Any]:
+    """Return a weekly status overview of deadlines and job follow-ups.
+
+    Use this when the user asks what to focus on this week, wants a plan, or
+    wants a status overview of overdue deadlines, upcoming deadlines within
+    the next `days` days, and job applications needing follow-up.
+    """
+    return briefing.weekly_briefing(days=days)
+
+
+@mcp.resource("deadlines://upcoming")
+def upcoming_deadlines() -> str:
+    """Read-only snapshot of upcoming study deadlines."""
+    return briefing.format_upcoming_deadlines(days_ahead=14)
+
+
+@mcp.prompt()
+def quiz_me(topic: str, num_questions: int = 5) -> str:
+    """Generate an interactive quiz grounded strictly in the student's notes."""
+    return (
+        f"Quiz the student on '{topic}' with {num_questions} questions.\n"
+        f"1. First, call search_notes with question='{topic}' and top_k=6.\n"
+        "2. If the returned passages do not cover the topic, tell the student "
+        "their notes don't cover it instead of inventing questions.\n"
+        f"3. Otherwise, write {num_questions} questions based ONLY on the returned "
+        "passages, mixing definition, explain-why, and application questions.\n"
+        "4. Ask ONE question at a time and wait for the student's answer.\n"
+        "5. After each answer, grade it against the passages, explain any gaps, "
+        "and cite the source file and page."
+    )
+
+
+@mcp.prompt()
+def weekly_plan() -> str:
+    """Create a structured 7-day study and job-search plan from current data."""
+    return (
+        "Build a practical 7-day plan for the student.\n"
+        "1. First, call weekly_briefing to get today's date, overdue deadlines, "
+        "upcoming deadlines, and job follow-ups due.\n"
+        "2. Produce a day-by-day plan for the next 7 days following these rules:\n"
+        "   - Put overdue items first.\n"
+        "   - Schedule study blocks before the nearest deadlines.\n"
+        "   - Include job follow-ups that are due.\n"
+        "   - Limit each day to at most 3 items."
     )
 
 

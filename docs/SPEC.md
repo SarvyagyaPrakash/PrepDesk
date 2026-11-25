@@ -16,6 +16,7 @@ PrepDesk is a local Model Context Protocol (MCP) server for students, acting as 
 - `list_applications(status)`
 - `followups_due(days_since_update)`
 - `match_resume(job_description, resume_path, application_id)`
+- `weekly_briefing(days)`
 
 ### Resource
 
@@ -23,7 +24,9 @@ PrepDesk is a local Model Context Protocol (MCP) server for students, acting as 
 
 ### Prompts
 
-- `quiz_me(topic)`
+*(For MCP hosts that support prompts)*
+
+- `quiz_me(topic, num_questions)`
 - `weekly_plan()`
 
 ## Domain Model
