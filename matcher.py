@@ -144,9 +144,20 @@ def _get_cached_resume(resume_path: str) -> tuple[str, list[str], np.ndarray]:
     return resume_text, units, unit_vecs
 
 
+def _resolve_default_resume_path() -> str:
+    """Resolve default resume path, preferring data/resume.pdf then data/resume.txt."""
+    for candidate in ("data/resume.pdf", "data/resume.txt"):
+        resolved = safe_data_path(candidate)
+        if resolved.exists() and resolved.is_file():
+            return candidate
+    raise ValueError(
+        "No default resume found. Checked 'data/resume.pdf' and 'data/resume.txt'."
+    )
+
+
 def match_resume(
     job_description: str,
-    resume_path: str = "data/resume.pdf",
+    resume_path: str | None = None,
     application_id: int | None = None,
 ) -> dict[str, Any]:
     """Compare a resume against a job description by skill overlap and embedding similarity."""
@@ -154,7 +165,8 @@ def match_resume(
     if application_id is not None:
         existing_app = jobs.get_application(application_id)
 
-    resume_text, resume_units, resume_vecs = _get_cached_resume(resume_path)
+    effective_path = resume_path or _resolve_default_resume_path()
+    resume_text, resume_units, resume_vecs = _get_cached_resume(effective_path)
 
     jd_skills = sorted(find_skills(job_description))
     resume_skills = find_skills(resume_text)

@@ -1,18 +1,19 @@
-Jordan Taylor
-jordan.taylor@example.com | (555) 014-8820 | github.com/jordan-taylor-demo
+Alex Sample
+alex.sample@example.com | +00 00000 00000 | github.com/alex-sample
 
 EDUCATION
-B.S. in Computer Science, State University (Expected May 2027)
+B.Tech in Computer Science & Engineering (Final Year, Expected May 2027)
 
 SKILLS
-Languages: Python, JavaScript, TypeScript, SQL, C++
-Frameworks & Tools: FastAPI, React, Node.js, PostgreSQL, Docker, Git, GitHub Actions, pytest
+Languages: Python, SQL, HTML, CSS
+Frameworks & Libraries: Flask, scikit-learn, pandas, NumPy
+Tools: Git, SQLite, PostgreSQL
 
 PROJECTS
-Campus Study Planner (Python, FastAPI, PostgreSQL, Docker)
-- Built a REST API and background reminder service for tracking course deadlines and study sessions.
-- Added parameterized SQL queries, pytest unit tests, and CI/CD checks with GitHub Actions.
+Student Expense & Study API (Python, Flask, SQL, PostgreSQL)
+- Built a REST API with Flask and parameterized SQL queries to track student budgets and course deadlines.
+- Designed normalized relational tables and wrote unit tests for core endpoints.
 
-Log Search CLI (Python, SQLite, NumPy)
-- Implemented a local document chunker and vector similarity search tool over course PDFs.
-- Reduced query latency by caching embeddings locally in SQLite.
+Course Grade Predictor (Python, scikit-learn, pandas, NumPy)
+- Trained a basic ML regression model on anonymized homework scores to forecast final exam readiness.
+- Cleaned tabular datasets with pandas and evaluated model error using cross-validation.

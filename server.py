@@ -146,7 +146,7 @@ def search_notes(question: str, top_k: int = 5) -> list[dict[str, Any]]:
 @mcp.tool()
 def match_resume(
     job_description: str,
-    resume_path: str = "data/resume.pdf",
+    resume_path: str | None = None,
     application_id: int | None = None,
 ) -> dict[str, Any]:
     """Compare the user's resume to a pasted job description.

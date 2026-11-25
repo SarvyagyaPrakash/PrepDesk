@@ -116,6 +116,36 @@ def test_match_resume_bad_application_id_raises_value_error(temp_env: tuple[Path
         )
 
 
+def test_match_resume_default_resume_fallback(
+    temp_env: tuple[Path, Path],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    data_dir, _ = temp_env
+
+    # Neither data/resume.pdf nor data/resume.txt exists
+    with pytest.raises(ValueError, match=r"data/resume\.pdf.*data/resume\.txt"):
+        matcher.match_resume(job_description="- Experience with Python.")
+
+    # Falls back to data/resume.txt when data/resume.pdf is absent
+    (data_dir / "resume.txt").write_text(
+        "- Built backend REST APIs in Python and SQL for student services.",
+        encoding="utf-8",
+    )
+    monkeypatch.setattr(
+        matcher.embeddings,
+        "embed_passages",
+        lambda texts: np.tile(np.array([[1.0, 0.0, 0.0, 0.0]], dtype=np.float32), (len(texts), 1)),
+    )
+    monkeypatch.setattr(
+        matcher.embeddings,
+        "embed_query",
+        lambda text: np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float32),
+    )
+
+    result = matcher.match_resume(job_description="- Experience with Python and SQL.")
+    assert result["skills"]["found_in_resume"] == ["python", "sql"]
+
+
 @pytest.mark.slow
 def test_match_resume_integration_database_vs_cooking_jd(temp_env: tuple[Path, Path]) -> None:
     data_dir, _ = temp_env

@@ -1,0 +1,13 @@
+Backend Developer Intern
+
+Responsibilities:
+- Design, build, and maintain scalable REST APIs in Python for our core web platform.
+- Write efficient SQL queries and optimize relational database schemas.
+- Containerize backend services with Docker and assist with Kubernetes deployments on AWS.
+- Collaborate with frontend engineers and write automated tests for new endpoints.
+
+Requirements:
+- Currently pursuing a degree in Computer Science or Software Engineering.
+- Strong proficiency in Python, SQL, and building REST APIs.
+- Familiarity with Docker, Kubernetes, and AWS cloud services.
+- Experience with Git and automated testing frameworks.
